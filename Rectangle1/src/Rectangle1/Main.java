@@ -1,6 +1,6 @@
 package Rectangle1;
 
-private static final String[] args = null;
+//private static final String[] args = null;
 //  On my honor: 
 //
 //  - I have not used source code obtained from another student,
