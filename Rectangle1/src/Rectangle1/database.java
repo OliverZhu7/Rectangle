@@ -1,7 +1,5 @@
 package Rectangle1;
 
-
-
 public class database {
     /**
      * root of BST
@@ -15,6 +13,10 @@ public class database {
      * help variable for search method
      */
     private String tempInfo;
+    /**
+     * count how many node does this tree have
+     */
+    private int count;
 
     /**
      * the constructor of database. construct a tree with no root
@@ -23,6 +25,7 @@ public class database {
         root = null;
         doSomething = false;
         tempInfo = "";
+        count = 0;
     }
 
     /**
@@ -32,7 +35,7 @@ public class database {
      * dimensions and position. The name must begin with a letter, and may contain
      * letters, digits, and underscore characters. Names are case sensitive. A
      * rectangle should be rejected for insertion if its height or width are not
-     * greater than 0. All rectangles must fit within the °∞world box" that is 1024
+     * greater than 0. All rectangles must fit within the ‚Äúworld box" that is 1024
      * by 1024 units in size and has upper left corner at (0, 0). If a rectangle is
      * all or partly out of this box, it should be rejected for insertion.
      * 
@@ -505,9 +508,42 @@ public class database {
         }
     }
 
-    // public void dump() {
-    //
-    // }
+    /**
+     * Return a ‚Äúdump‚Äù of the BST. The BST dump should print out each BST node (use
+     * the in-order traversal). For each BST node, print that node's depth and value
+     * (rectangle info). At the end, please print out the size of the BST.
+     */
+    public void dump() {
+        // print title
+        System.out.println("BST dump:");
+        // if the tree is not empty
+        if (root != null) {
+            dumpHelp(root, 1);
+        }
+        System.out.println("BST size is: " + count);
+    }
+
+    /**
+     * help method for dump
+     * 
+     * @param current
+     */
+    private void dumpHelp(node current, int level) {
+        // if left side has node
+        if (current.getLeft() != null) {
+            // re-run by left node
+            dumpHelp(current.getLeft(), level + 1);
+        }
+        System.out.println("Node has depth" + level + ", Value (" + ((Rectangles) current.getElement()).getName() + ", "
+                + ((Rectangles) current.getElement()).getX() + ", " + ((Rectangles) current.getElement()).getY() + ", "
+                + ((Rectangles) current.getElement()).getW() + ", " + ((Rectangles) current.getElement()).getH());
+        count++;
+        // if right side has node
+        if (current.getRight() != null) {
+            // re-run by right node
+            dumpHelp(current.getRight(), level + 1);
+        }
+    }
 
     /**
      * help method to find a lowest node from one specific node
