@@ -1,111 +1,166 @@
-package Rectangle1;
+import student.TestCase;
 
-import junit.framework.TestCase;
+/**
+ * @version this is the version for 2/19/2019
+ * @author zichen
+ *         this class is used to test the database class
+ */
 
-public class databaseTest extends TestCase {
-	
-	private node root;
-	private node leftfromroot;
-	private node rightfromroot;
-	private Rectangles rect1;
-	private Rectangles rect2;
-	private Rectangles rect3;
-	private Rectangles rect4;
-	private Rectangles rect5;
-	private Rectangles rect6;
-	private database base1;
-	private database base2;
-	private node first1; 
-	private node second1;
-	private node second2;
-	private node Third1;
-	private node Third2;
-	private node Third3;
-	private node Third4;
-	
-	
-	/**
-	 * this is the pre set up
-	 */
-	@SuppressWarnings("unchecked")
-	
-	
-	public void setup() {
-	 root = new node(rect1,leftfromroot,rightfromroot);
-	 
-	 rect1 = new Rectangles("one",10,10,1,1);
-	 rect2 = new Rectangles("two",2,2,1,1);
-	 base1 = new database();
-	 base2 = new database();
-	}
-	
-	/**
-	 * this is the method test the getName method
-	 */
-	public void testinsert() {
-		base1.insert("one", 10, 10, 5, 5);
-		assertNotNull(base1.search("one"));
-		
-		
-		//check the situation that is there is empty 
-		node emptyroot = new node(null,null,null); 
-		
-		
-		//test the situation that the rectangle is rejected.
-		base2.insert("badsituation", -1, 0, 10, 1888);
-		assertNull("Rectangle rejected: (badsituation, -1, 0, 10, 1888)");//, "Rectangle rejected: (badsituation, -1, 0, 10, 1888)");
-    
-		
-	}
-	
-	/**
-	 * THIS IS the method to test the insertHelp method 
-	 */
-	
-	public void testinsertHelp() {
-		leftfromroot = new node(rect1,null,null);
-		rightfromroot = new node(rect2,null,null);
-		assertEquals(root.getLeft(),leftfromroot);
-		assertEquals(root.getRight(),rightfromroot);
-				
-	}
+public class databaseTest extends student.TestCase {
 
-	/**
-	 * this method is used to test the search method 
-	 */
-	public void testsearch() {
-		base1.insert("search1", 100, 100, 10, 10);
-		assertEquals(base1.search("search1"),"search1");
-		
-	}
-	
-	
-	/**
-	 * this method is used to test the searchHelp method 
-	 */
-	public void testsearchHelp() {
-		rect3 = new Rectangles("three", 100, 100, 20, 20);
-		rect4 = new Rectangles("four", 200, 200, 100, 100);
-		rect5 = new Rectangles("five", 300, 200, 100, 20);
-		rect6 = new Rectangles("six", 1000, 1000, 999,999);
-		
-		first1.setLeft(second1);
-		first1.setRight(second2);
-		second1.setLeft(Third1);
-		second1.setRight(Third2);
-		second2.setLeft(Third3);
-		second2.setRight(Third4);
-		
-		
-	}
-	
-	/**
-	 * this method is used to test the remove method
-	 */
-	public void testRemove()
-	{
-		
-	}
+    private database base;
 
+
+    /**
+     * this is the pre set up
+     */
+    @SuppressWarnings("unchecked")
+
+    public void setUp() {
+
+        base = new database();
+    }
+
+
+// /**
+// * this is the method test the getName method
+// */
+// public void testInsert() {
+// assertTrue(base.insert("ok1", 1, 1, 1, 1));
+// assertTrue(base.insert("ok1", 1, 1, 1, 1));
+// assertFalse(base.insert("xles", -1, 1, 1, 1));
+// assertFalse(base.insert("yles", 1, -1, 1, 1));
+// assertFalse(base.insert("wles", 1, 1, -1, 1));
+// assertFalse(base.insert("hles", 1, 1, 1, -1));
+// assertFalse(base.insert("xlar", 1, 1, 2000, 1));
+// assertFalse(base.insert("ylar", 1, 1, 1, 2000));
+// }
+//
+//
+// /**
+// * THIS IS the method to test the insertHelp method
+// */
+//
+// public void testInsertHelp() {
+// assertTrue(base.insert("eee", 1, 1, 1, 1));
+// assertTrue(base.insert("ddd", 1, 1, 1, 1));
+// assertTrue(base.insert("ddd", 1, 1, 1, 1));
+// assertTrue(base.insert("fff", 1, 1, 1, 1));
+// assertTrue(base.insert("fff", 1, 1, 1, 1));
+// }
+//
+//
+// /**
+// * this method is used to test the search method
+// */
+// public void testSearch() {
+// assertFalse(base.search("233"));
+// base.insert("eee", 1, 1, 1, 1);
+// assertFalse(base.search("233"));
+// assertTrue(base.search("eee"));
+// }
+//
+//
+// public void testSearchHelp() {
+// base.insert("eee", 1, 1, 1, 1);
+// base.insert("ddd", 1, 1, 1, 1);
+// base.insert("fff", 1, 1, 1, 1);
+// assertTrue(base.search("eee"));
+// assertTrue(base.search("ddd"));
+// assertTrue(base.search("fff"));
+// }
+
+    /**
+     * this method is used to test the remove method
+     */
+    public void testRemove() {
+        assertFalse(base.remove("233"));
+        base.insert("eee", 1, 1, 1, 1);
+        assertTrue(base.remove("eee"));
+        base.insert("eee", 1, 1, 1, 1);
+        base.insert("fff", 1, 1, 1, 1);
+        assertTrue(base.remove("eee"));
+        // now only leave fff
+        base.remove("fff");
+        assertFalse(base.remove(2, 3, 3, 3));
+        base.insert("eee", 1, 1, 1, 1);
+        base.insert("eee", 1, 1, 1, 1);
+        base.insert("eee", 1, 1, 1, 1);
+        base.insert("ddd", 1, 1, 1, 1);
+        assertTrue(base.remove(1, 1, 1, 1));
+        // only ddd
+    }
+
+
+    public void testRemoveHelp2() {
+
+        base.insert("eee", 1, 1, 1, 1);
+        assertFalse(base.remove(2, 3, 3, 3));
+        base.insert("ddd", 2, 1, 1, 1);
+        base.insert("ddd", 2, 1, 1, 1);
+        base.insert("ccc", 3, 1, 1, 1);
+        assertTrue(base.remove(2, 1, 1, 1));
+        base.insert("fff", 2, 1, 1, 2);
+        base.insert("fff", 2, 1, 1, 2);
+        base.insert("eee", 3, 1, 1, 1);
+        assertTrue(base.remove(2, 1, 1, 2));
+        assertFalse(base.remove(3, 3, 33, 3));
+    }
+
+
+    public void testRemoveHelp() {
+        base.insert("eee", 1, 1, 1, 1);
+        assertFalse(base.remove("zzz"));
+        assertFalse(base.remove("aaa"));
+        base.insert("fff", 1, 1, 1, 1);
+        base.insert("ddd", 1, 1, 1, 1);
+        base.insert("ggg", 1, 1, 1, 1);
+        base.insert("ccc", 1, 1, 1, 1);
+        assertTrue(base.remove("fff"));
+        assertTrue(base.remove("ggg"));
+        base.insert("fff", 1, 1, 1, 1);
+        base.insert("ggg", 1, 1, 1, 1);
+        assertTrue(base.remove("ggg"));
+        base.insert("ddd", 1, 1, 1, 1);
+        assertTrue(base.remove("ddd"));
+        assertTrue(base.remove("ccc"));
+    }
+
+
+    /**
+     * this method is used to test the region search
+     */
+    public void testRegionSearch() {
+        assertFalse(base.regionsearch(1, 1, -1, 1));
+        assertFalse(base.regionsearch(1, 1, -1, -1));
+        assertFalse(base.regionsearch(1, 1, 1, -1));
+        base.insert("ddd", 1, 1, 1, 1);
+        assertFalse(base.regionsearch(5, 5, 2, 1));
+        assertTrue(base.regionsearch(1, 1, 1, 5));
+    }
+
+
+    /**
+     * this method is used to test the intersection method
+     */
+    public void testIntersection() {
+        base.insert("eee", 1, 1, 1, 1);
+        base.insert("ddd", 1, 1, 1, 1);
+        base.insert("fff", 1, 1, 1, 1);
+        base.insert("ddd", 1, 1, 1, 1);
+        base.insert("ccc", 1, 1, 1, 1);
+        base.insert("fff", 1, 1, 1, 1);
+        base.insert("eee", 1, 1, 1, 1);
+        assertFalse(base.regionsearch(5, 5, 2, 1));
+        assertTrue(base.regionsearch(1, 1, 1, 1));
+    }
+
+
+    /**
+     * this method is used to test the dump method
+     */
+    public void testDump() {
+
+    }
 
 }
