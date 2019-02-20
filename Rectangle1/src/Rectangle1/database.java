@@ -97,35 +97,35 @@ public class database<T> {
      *            object node<Rectangles> should be put
      */
     public void insertHelp(node<Rectangles> parents, node<Rectangles> child) {
-        // parents is large or equal to child, child less than parents
-        if (((Rectangles)parents.getElement()).compareTo((Rectangles)child
+        // child larger ot equal than parents
+        if (((Rectangles)child.getElement()).compareTo((Rectangles)parents
             .getElement())) {
             // there is a node<Rectangles> in left side of parents
-            if (parents.getLeft() != null) {
+            if (parents.getRight() != null) {
                 // put the left side node<Rectangles> and object in another
                 // insertHelp
                 // function
-                insertHelp(parents.getLeft(), child);
+                insertHelp(parents.getRight(), child);
             }
             // the left side of parents is empty
             else {
                 // put the new node<Rectangles> in left side of this parents
-                parents.setLeft(child);
+                parents.setRight(child);
             }
         }
-        // child is larger or equal to parents
+        // child is less to parents
         else {
             // there is a node<Rectangles> on the right of this parents
-            if (parents.getRight() != null) {
+            if (parents.getLeft() != null) {
                 // put the right side node<Rectangles> and the objective in
                 // another
                 // insertHelp
-                insertHelp(parents.getRight(), child);
+                insertHelp(parents.getLeft(), child);
             }
             // there is not any node<Rectangles> in right side
             else {
                 // put the new node<Rectangles> in right side of this parents
-                parents.setRight(child);
+                parents.setLeft(child);
             }
         }
     }
@@ -565,12 +565,19 @@ public class database<T> {
     /**
      * Report all pairs of rectangles within the database that intersect.
      */
-    public void intersections() {
-        tempRoot = root;
-        // print title
-        System.out.println("Intersection pairs: ");
-        // run help section
-        intersectionsHelp(tempRoot, tempRoot);
+    public boolean intersections() {
+        if (root != null) {
+            tempRoot = root;
+            // print title
+            System.out.println("Intersection pairs: ");
+            // run help section
+            intersectionsHelp(tempRoot, tempRoot);
+            if (doSomething == true) {
+                doSomething = false;
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -606,7 +613,8 @@ public class database<T> {
             intersectionsHelp(out, in.getRight());
         }
         if (((Rectangles)out.getElement()).intersect((Rectangles)in
-            .getElement())) {
+            .getElement()) && (out != tempRoot || in != tempRoot)) {
+            doSomething = true;
             System.out.println("(" + ((Rectangles)out.getElement()).getName()
                 + ", " + ((Rectangles)out.getElement()).getX() + ", "
                 + ((Rectangles)out.getElement()).getY() + ", "
@@ -630,14 +638,17 @@ public class database<T> {
      * value
      * (rectangle info). At the end, please print out the size of the BST.
      */
-    public void dump() {
+    public boolean dump() {
         // print title
         System.out.println("BST dump:");
         // if the tree is not empty
         if (root != null) {
             dumpHelp(root, 1);
+            System.out.println("BST size is: " + count);
+            count = 0;
+            return true;
         }
-        System.out.println("BST size is: " + count);
+        return false;
     }
 
 
@@ -657,7 +668,7 @@ public class database<T> {
             + ((Rectangles)current.getElement()).getX() + ", "
             + ((Rectangles)current.getElement()).getY() + ", "
             + ((Rectangles)current.getElement()).getW() + ", "
-            + ((Rectangles)current.getElement()).getH());
+            + ((Rectangles)current.getElement()).getH() + ")");
         count++;
         // if right side has node<Rectangles>
         if (current.getRight() != null) {
