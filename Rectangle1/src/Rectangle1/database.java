@@ -1,10 +1,9 @@
-package Rectangle1;
 
-public class database {
+public class database<T> {
     /**
      * root of BST
      */
-    private node root;
+    public node<Rectangles> root;
     /**
      * determine if one method do any operation at least one time
      */
@@ -14,13 +13,13 @@ public class database {
      */
     private String tempInfo;
     /**
-     * count how many node does this tree have
+     * count how many node<Rectangles> does this tree have
      */
     private int count;
     /**
-     * temp node if we need do some temp change to BST
+     * temp node<Rectangles> if we need do some temp change to BST
      */
-    private node tempRoot;
+    private node<Rectangles> tempRoot;
 
 
     /**
@@ -31,7 +30,7 @@ public class database {
         doSomething = false;
         tempInfo = "";
         count = 0;
-        node tempRoot = new node();
+        node<Rectangles> tempRoot = new node<Rectangles>();
     }
 
 
@@ -57,71 +56,75 @@ public class database {
      * @param wIn
      * @param hIn
      */
-    public void insert(String nameIn, int xIn, int yIn, int wIn, int hIn) {
+    public boolean insert(String nameIn, int xIn, int yIn, int wIn, int hIn) {
         // if the x and y larger then 0, and this rectangle is in 1240*1240,
         // then
         if (wIn > 0 && hIn > 0 && xIn >= 0 && yIn >= 0 && xIn + wIn <= 1240
             && yIn + hIn <= 1240) {
             // create a new rectangle
             Rectangles newRec = new Rectangles(nameIn, xIn, yIn, wIn, hIn);
-            // create a new node
-            node newNode = new node();
-            // put rectangle into the node
+            // create a new node<Rectangles>
+            node<Rectangles> newNode = new node<Rectangles>();
+            // put rectangle into the node<Rectangles>
             newNode.setElement(newRec);
             // if there is no root, the tree is empty
             if (root == null) {
-                // this new node become the root
+                // this new node<Rectangles> become the root
                 root = newNode;
             }
             // the tree has a root, the tree is not empty
             else {
                 insertHelp(root, newNode);
             }
-            // the rectangle cannot be insert
+            return true;
         }
+        // the rectangle cannot be insert
         else {
             System.out.println("Rectangle rejected: (" + nameIn + ", " + xIn
                 + ", " + yIn + ", " + wIn + ", " + hIn + ")");
+            return false;
         }
 
     }
 
 
     /**
-     * find where should the new node be put
+     * find where should the new node<Rectangles> be put
      * 
      * @param parents
-     *            the upper node
+     *            the upper node<Rectangles>
      * @param child
-     *            object node should be put
+     *            object node<Rectangles> should be put
      */
-    public void insertHelp(node parents, node child) {
+    public void insertHelp(node<Rectangles> parents, node<Rectangles> child) {
         // parents is large or equal to child, child less than parents
         if (((Rectangles)parents.getElement()).compareTo((Rectangles)child
             .getElement())) {
-            // there is a node in left side of parents
+            // there is a node<Rectangles> in left side of parents
             if (parents.getLeft() != null) {
-                // put the left side node and object in another insertHelp
+                // put the left side node<Rectangles> and object in another
+                // insertHelp
                 // function
                 insertHelp(parents.getLeft(), child);
             }
             // the left side of parents is empty
             else {
-                // put the new node in left side of this parents
+                // put the new node<Rectangles> in left side of this parents
                 parents.setLeft(child);
             }
         }
         // child is larger or equal to parents
         else {
-            // there is a node on the right of this parents
+            // there is a node<Rectangles> on the right of this parents
             if (parents.getRight() != null) {
-                // put the right side node and the objective in another
+                // put the right side node<Rectangles> and the objective in
+                // another
                 // insertHelp
                 insertHelp(parents.getRight(), child);
             }
-            // there is not any node in right side
+            // there is not any node<Rectangles> in right side
             else {
-                // put the new node in right side of this parents
+                // put the new node<Rectangles> in right side of this parents
                 parents.setRight(child);
             }
         }
@@ -140,7 +143,10 @@ public class database {
      * @return information if find some rectangles, or not found if nothing
      *         found
      */
-    public String search(String name) {
+    public boolean search(String name) {
+        if (root == null) {
+            return false;
+        }
         searchHelp(root, name);
         // if find some rectangles
         if (doSomething) {
@@ -151,11 +157,11 @@ public class database {
             tempInfo = "";
             // reset doSomething
             doSomething = false;
-            return temp;
+            return true;
         }
         // report reject directly
         System.out.println("Rectangle not found: " + name);
-        return "Rectangle not found: " + name;
+        return false;
     }
 
 
@@ -166,15 +172,15 @@ public class database {
      * @param name
      *            objective name
      */
-    private void searchHelp(node current, String name) {
-        // if left side has node
+    private void searchHelp(node<Rectangles> current, String name) {
+        // if left side has node<Rectangles>
         if (current.getLeft() != null) {
-            // re-run by left node
+            // re-run by left node<Rectangles>
             searchHelp(current.getLeft(), name);
         }
-        // if right side has node
+        // if right side has node<Rectangles>
         if (current.getRight() != null) {
-            // re-run by right node
+            // re-run by right node<Rectangles>
             searchHelp(current.getRight(), name);
         }
         // if current rectangle has the objective name
@@ -182,10 +188,15 @@ public class database {
             // we find at least one rectangle
             doSomething = true;
             // add information to tempInfo
-            tempInfo += "(" + name + ", " + ((Rectangles)current.getElement())
-                .getX() + ", " + ((Rectangles)current.getElement()).getY()
-                + ", " + ((Rectangles)current.getElement()).getW() + ", "
-                + ((Rectangles)current.getElement()).getH() + ")" + "\n";
+// tempInfo += "(" + name + ", " + ((Rectangles)current.getElement())
+// .getX() + ", " + ((Rectangles)current.getElement()).getY()
+// + ", " + ((Rectangles)current.getElement()).getW() + ", "
+// + ((Rectangles)current.getElement()).getH() + ")" + "\n";
+            System.out.println("(" + name + ", " + ((Rectangles)current
+                .getElement()).getX() + ", " + ((Rectangles)current
+                    .getElement()).getY() + ", " + ((Rectangles)current
+                        .getElement()).getW() + ", " + ((Rectangles)current
+                            .getElement()).getH() + ")");
         }
     }
 
@@ -198,36 +209,36 @@ public class database {
      * 
      * @param name
      */
-    public void remove(String name) {
-        // there is at least one node in the tree
+    public boolean remove(String name) {
+        // there is at least one node<Rectangles> in the tree
         if (root != null) {
-            // if root is the node should be removed
+            // if root is the node<Rectangles> should be removed
             if (((Rectangles)root.getElement()).getName().equals(name)) {
                 // we will remove root, so we did remove a rectangle
                 doSomething = true;
-                // if there is a node on the right side of root
+                // if there is a node<Rectangles> on the right side of root
                 if (root.getRight() != null) {
-                    // find the leftest node on the right side of root, and put
-                    // the left side of root into left side of the leftest node
-                    // of
-                    // right side
+                    // find the leftest node<Rectangles> on the right side of
+                    // root, and put the left side of root into left side of the
+                    // leftest node<Rectangles> of right side
                     findLeftest(root.getRight()).setLeft(root.getLeft());
-                    // let the right side node become new root
+                    // let the right side node<Rectangles> become new root
                     root = root.getRight();
                     // re-run remove() function from new root to avoid the
-                    // new root is also node should be removed
-                    remove(name);
+                    // new root is also node<Rectangles> should be removed
+                    doSomething = doSomething || remove(name);
                 }
-                // if there is no node on right side
+                // if there is no node<Rectangles> on right side
                 else {
-                    // let the left side node become root
+                    // let the left side node<Rectangles> become root
                     root = root.getLeft();
                 }
             }
-            // root is not the node should be removed
+            // root is not the node<Rectangles> should be removed
             else {
-                // create a temp node called current, let it equal to root
-                node current = root;
+                // create a temp node<Rectangles> called current, let it equal
+                // to root
+                node<Rectangles> current = root;
                 removeHelp1(current, name);
             }
 
@@ -236,9 +247,10 @@ public class database {
         if (doSomething == false) {
             // report reject directly
             System.out.println("Rectangle rejected " + name);
+            return false;
         }
-        // reset doSomething
         doSomething = false;
+        return true;
     }
 
 
@@ -248,18 +260,21 @@ public class database {
      * @param current
      * @param nameIn
      */
-    private void removeHelp1(node current, String nameIn) {
-        // if the name is larger than or equal to current node's element's name
+    private void removeHelp1(node<Rectangles> current, String nameIn) {
+        // if the name is larger than or equal to current node<Rectangles>'s
+        // element's name
         // (but actually cannot be equal)
-        if (nameIn.compareTo(((Rectangles)current.getElement()).getName()) >= 0
-            // and current node's right side has a node
+        if (nameIn.compareTo(((Rectangles)current.getElement()).getName()) > 0
+            // and current node<Rectangles>'s right side has a node<Rectangles>
             && current.getRight() != null) {
-            // if the name is equal to right side node's element's name
+            // if the name is equal to right side node<Rectangles>'s element's
+            // name
             if (nameIn.equals(((Rectangles)current.getRight().getElement())
                 .getName())) {
                 // if the right side of right side is not null
                 if (current.getRight().getRight() != null) {
-                    // find the leftest node of RIGHT RIGHT node, and put the
+                    // find the leftest node<Rectangles> of RIGHT RIGHT
+                    // node<Rectangles>, and put the
                     // LEFT of RIGHT to the
                     // left of the leftest
                     findLeftest(current.getRight().getRight()).setLeft(current
@@ -278,23 +293,26 @@ public class database {
                 // be removed
                 removeHelp1(current, nameIn);
             }
-            // the object is in right side but not the directly right node
+            // the object is in right side but not the directly right
+            // node<Rectangles>
             else {
-                // run removeHelp by right side node
+                // run removeHelp by right side node<Rectangles>
                 removeHelp1(current.getRight(), nameIn);
             }
         }
         // the objective is in left side
         else if (nameIn.compareTo(((Rectangles)current.getElement())
             .getName()) < 0
-            // and current node's left side has a node
+            // and current node<Rectangles>'s left side has a node<Rectangles>
             && current.getLeft() != null) {
-            // if the name is equal to left side node's element's name
+            // if the name is equal to left side node<Rectangles>'s element's
+            // name
             if (nameIn.equals(((Rectangles)current.getLeft().getElement())
                 .getName())) {
-                // the LEFT RIGHT position has a node
+                // the LEFT RIGHT position has a node<Rectangles>
                 if (current.getLeft().getRight() != null) {
-                    // fin the leftest node of LEFT RIGHT node, and set its left
+                    // fin the leftest node<Rectangles> of LEFT RIGHT
+                    // node<Rectangles>, and set its left
                     // in LEFT LEFT
                     findLeftest(current.getLeft().getRight()).setLeft(current
                         .getLeft().getLeft());
@@ -312,9 +330,10 @@ public class database {
                 // removed
                 removeHelp1(current, nameIn);
             }
-            // the object is in left side but not the directly left node
+            // the object is in left side but not the directly left
+            // node<Rectangles>
             else {
-                // run removeHelp by left side node
+                // run removeHelp by left side node<Rectangles>
                 removeHelp1(current.getLeft(), nameIn);
             }
         }
@@ -333,39 +352,42 @@ public class database {
      * @param w
      * @param h
      */
-    public void remove(int x, int y, int w, int h) {
-        // there is at least one node in the tree
+    public boolean remove(int x, int y, int w, int h) {
+        // there is at least one node<Rectangles> in the tree
         if (root != null) {
-            // if root is the node should be removed
+            // if root is the node<Rectangles> should be removed
             if (((Rectangles)root.getElement()).getX() == x && ((Rectangles)root
                 .getElement()).getY() == y && ((Rectangles)root.getElement())
                     .getW() == w && ((Rectangles)root.getElement())
                         .getH() == h) {
                 // we will remove root, so we did remove a rectangle
                 doSomething = true;
-                // if there is a node on the right side of root
+                // if there is a node<Rectangles> on the right side of root
                 if (root.getRight() != null) {
-                    // find the leftest node on the right side of root, and put
-                    // the left side of root into left side of the leftest node
+                    // find the leftest node<Rectangles> on the right side of
+                    // root, and put
+                    // the left side of root into left side of the leftest
+                    // node<Rectangles>
                     // of
                     // right side
                     findLeftest(root.getRight()).setLeft(root.getLeft());
-                    // let the right side node become new root
+                    // let the right side node<Rectangles> become new root
                     root = root.getRight();
                     // re-run remove() function from new root to avoid the
-                    // new root is also node should be removed
-                    remove(x, y, w, h);
+                    // new root is also node<Rectangles> should be removed
+                    doSomething = doSomething || remove(x, y, w, h);
                 }
-                // if there is no node on right side
+                // if there is no node<Rectangles> on right side
                 else {
-                    // let the left side node become root
+                    // let the left side node<Rectangles> become root
                     root = root.getLeft();
                 }
             }
-            // root is not the node should be removed
+            // root is not the node<Rectangles> should be removed
             else {
-                // create a temp node called current, let it equal to root
-                node current = root;
+                // create a temp node<Rectangles> called current, let it equal
+                // to root
+                node<Rectangles> current = root;
                 removeHelp2(current, x, y, w, h);
             }
 
@@ -373,10 +395,13 @@ public class database {
         // if this method do nothing
         if (doSomething == false) {
             // report reject directly
-            System.out.println("Rectangle rejected " + x + y + w + h);
+            System.out.println("Rectangle rejected " + x + ", " + y + ", " + w
+                + ", " + h);
+            return false;
         }
         // reset doSomething
         doSomething = false;
+        return true;
     }
 
 
@@ -390,54 +415,69 @@ public class database {
      * @param w
      * @param h
      */
-    private void removeHelp2(node current, int x, int y, int w, int h) {
-        // if left side has node
+    private void removeHelp2(
+        node<Rectangles> current,
+        int x,
+        int y,
+        int w,
+        int h) {
+        // if left side has node<Rectangles>
         if (current.getLeft() != null) {
-            // re-run by left node
-            removeHelp2(current.getLeft(), x, y, w, h);
-            // left node is the node should be removed
+            // left node<Rectangles> is the node<Rectangles> should be removed
             if (((Rectangles)current.getLeft().getElement()).compareTo(x, y, w,
                 h)) {
-                // LEFT RIGHT has node
+                // LEFT RIGHT has node<Rectangles>
                 if (current.getLeft().getRight() != null) {
-                    // put left side of left node to left side of leftest node
-                    // of RIGHT RIGHTT node
+                    // put left side of left node<Rectangles> to left side of
+                    // leftest node<Rectangles>
+                    // of RIGHT RIGHTT node<Rectangles>
                     findLeftest(current.getLeft().getRight()).setLeft(current
                         .getLeft().getLeft());
                     // set left in LEFT RIGHT
                     current.setLeft(current.getLeft().getRight());
                 }
-                // there is no node in right of left node
+                // there is no node<Rectangles> in right of left
+                // node<Rectangles>
                 else {
                     current.setLeft(current.getLeft().getLeft());
                 }
                 // we did remove a rectangle
                 doSomething = true;
+                // re-run by current node<Rectangles>
+                removeHelp2(current, x, y, w, h);
             }
         }
-        // if right side has node
+        // if right side has node<Rectangles>
         if (current.getRight() != null) {
-            // re-run by right node
-            removeHelp2(current.getRight(), x, y, w, h);
-            // right node is the node should be removed
+            // right node<Rectangles> is the node<Rectangles> should be removed
             if (((Rectangles)current.getRight().getElement()).compareTo(x, y, w,
                 h)) {
-                // RIGHT RIGHT has node
+                // RIGHT RIGHT has node<Rectangles>
                 if (current.getRight().getRight() != null) {
-                    // put left side of right node to left side of leftest node
-                    // of RIGHT RIGHT node
+                    // put left side of right node<Rectangles> to left side of
+                    // leftest node<Rectangles>
+                    // of RIGHT RIGHT node<Rectangles>
                     findLeftest(current.getRight().getRight()).setLeft(current
                         .getRight().getLeft());
                     // set right in RIGHT RIGHT
                     current.setRight(current.getRight().getRight());
                 }
-                // there is no node in right of right node
+                // there is no node<Rectangles> in right of right
+                // node<Rectangles>
                 else {
                     current.setRight(current.getRight().getLeft());
                 }
                 // we did remove a rectangle
                 doSomething = true;
+                // re-run by current node<Rectangles>
+                removeHelp2(current, x, y, w, h);
             }
+        }
+        if (current.getLeft() != null) {
+            removeHelp2(current.getLeft(), x, y, w, h);
+        }
+        if (current.getRight() != null) {
+            removeHelp2(current.getRight(), x, y, w, h);
         }
     }
 
@@ -457,7 +497,7 @@ public class database {
      * @param w
      * @param h
      */
-    public void regionsearch(int x, int y, int w, int h) {
+    public boolean regionsearch(int x, int y, int w, int h) {
         // determine if both length and width larger than zero
         if (w > 0 && h > 0) {
             // create a new rectangle with specific size
@@ -469,14 +509,17 @@ public class database {
                 // report not found
                 System.out.println("Rectangle not found: (" + x + y + w + h
                     + ")");
+                return false;
             }
             // reset doSomething
             doSomething = false;
+            return true;
         }
         // reject this order
         else {
             System.out.println("Rectangles intersecting region (" + x + ", " + y
                 + ", " + w + ", " + h + ") is rejected");
+            return false;
         }
     }
 
@@ -488,19 +531,21 @@ public class database {
      * report
      * 
      * @param current
-     *            current node need to be operated
+     *            current node<Rectangles> need to be operated
      * @param require
      *            temp rectangle with required size and position
      */
-    private void regionsearchHelp(node current, Rectangles require) {
-        // if left side has node
+    private void regionsearchHelp(
+        node<Rectangles> current,
+        Rectangles require) {
+        // if left side has node<Rectangles>
         if (current.getLeft() != null) {
-            // re-run by left node
+            // re-run by left node<Rectangles>
             regionsearchHelp(current.getLeft(), require);
         }
-        // if right side has node
+        // if right side has node<Rectangles>
         if (current.getRight() != null) {
-            // re-run by right node
+            // re-run by right node<Rectangles>
             regionsearchHelp(current.getRight(), require);
         }
         // if current rectangle intersects the objective
@@ -530,34 +575,34 @@ public class database {
 
 
     /**
-     * recursion to compare each node to each one else
+     * recursion to compare each node<Rectangles> to each one else
      * 
      * @param out
-     *            node we token to compare
+     *            node<Rectangles> we token to compare
      * @param in
-     *            node we token to be compared
+     *            node<Rectangles> we token to be compared
      */
-    private void intersectionsHelp(node out, node in) {
-        // if left side has node
+    private void intersectionsHelp(node<Rectangles> out, node<Rectangles> in) {
+        // if left side has node<Rectangles>
         if (out.getLeft() != null) {
-            // re-run by left node
+            // re-run by left node<Rectangles>
             intersectionsHelp(out.getLeft(), in);
             out.setLeft(null);
         }
-        // if right side has node
+        // if right side has node<Rectangles>
         if (out.getRight() != null) {
-            // re-run by right node
+            // re-run by right node<Rectangles>
             intersectionsHelp(out.getRight(), in);
             out.setRight(null);
         }
-        // if left side has node
+        // if left side has node<Rectangles>
         if (in.getLeft() != null && in.getLeft() != out) {
-            // re-run by left node
+            // re-run by left node<Rectangles>
             intersectionsHelp(out, in.getLeft());
         }
-        // if right side has node
+        // if right side has node<Rectangles>
         if (in.getRight() != null && in.getRight() != out) {
-            // re-run by right node
+            // re-run by right node<Rectangles>
             intersectionsHelp(out, in.getRight());
         }
         if (((Rectangles)out.getElement()).intersect((Rectangles)in
@@ -577,9 +622,11 @@ public class database {
 
 
     /**
-     * Return a “dump” of the BST. The BST dump should print out each BST node
+     * Return a “dump” of the BST. The BST dump should print out each BST
+     * node<Rectangles>
      * (use
-     * the in-order traversal). For each BST node, print that node's depth and
+     * the in-order traversal). For each BST node<Rectangles>, print that
+     * node<Rectangles>'s depth and
      * value
      * (rectangle info). At the end, please print out the size of the BST.
      */
@@ -599,38 +646,40 @@ public class database {
      * 
      * @param current
      */
-    private void dumpHelp(node current, int level) {
-        // if left side has node
+    private void dumpHelp(node<Rectangles> current, int level) {
+        // if left side has node<Rectangles>
         if (current.getLeft() != null) {
-            // re-run by left node
+            // re-run by left node<Rectangles>
             dumpHelp(current.getLeft(), level + 1);
         }
-        System.out.println("Node has depth" + level + ", Value ("
+        System.out.println("node<Rectangles> has depth" + level + ", Value ("
             + ((Rectangles)current.getElement()).getName() + ", "
             + ((Rectangles)current.getElement()).getX() + ", "
             + ((Rectangles)current.getElement()).getY() + ", "
             + ((Rectangles)current.getElement()).getW() + ", "
             + ((Rectangles)current.getElement()).getH());
         count++;
-        // if right side has node
+        // if right side has node<Rectangles>
         if (current.getRight() != null) {
-            // re-run by right node
+            // re-run by right node<Rectangles>
             dumpHelp(current.getRight(), level + 1);
         }
     }
 
 
     /**
-     * help method to find a lowest node from one specific node
+     * help method to find a lowest node<Rectangles> from one specific
+     * node<Rectangles>
      * 
      * @param ori
-     *            is "root" of sub tree in which we want to find the lowest node
-     * @return a node which is lowest under ori
+     *            is "root" of sub tree in which we want to find the lowest
+     *            node<Rectangles>
+     * @return a node<Rectangles> which is lowest under ori
      */
-    private node findLeftest(node ori) {
-        // if there is a node on left side of current
+    private node<Rectangles> findLeftest(node<Rectangles> ori) {
+        // if there is a node<Rectangles> on left side of current
         if (ori.getLeft() != null) {
-            // re-run this function by left side node
+            // re-run this function by left side node<Rectangles>
             return findLeftest(ori.getLeft());
             // if there is no left side
         }
