@@ -1,5 +1,11 @@
-package Rectangle1;
 
+
+/**
+ * 
+ * @author Zichen Zhu(zichen), Jingyuan Qi(jingyq1)
+ * @version this is the Version 2/19/2019
+ *
+ */
 public class Rectangles {
     private String name;
     private int x;
@@ -11,16 +17,11 @@ public class Rectangles {
     /**
      * the constructor of Rectangles
      * 
-     * @param nameIn
-     *            the name of rectangles
-     * @param xIn
-     *            x position of the rectangle
-     * @param yIn
-     *            y position of the rectangle
-     * @param wIn
-     *            the width of rectangles
-     * @param hIn
-     *            the height of rectangles
+     * @param nameIn the name of rectangles
+     * @param xIn    x position of the rectangle
+     * @param yIn    y position of the rectangle
+     * @param wIn    the width of rectangles
+     * @param hIn    the height of rectangles
      */
     public Rectangles(String nameIn, int xIn, int yIn, int wIn, int hIn) {
         name = nameIn;
@@ -79,8 +80,7 @@ public class Rectangles {
     /**
      * determine if this object is larger or equal than another rectangles
      * 
-     * @param another
-     *            rectangle's name
+     * @param another rectangle's name
      * @return if this rectangle is larger or equal to another, return True
      */
     public boolean compareTo(Rectangles another) {
@@ -90,14 +90,10 @@ public class Rectangles {
     /**
      * determine if this object has a specific size
      * 
-     * @param xIn
-     *            x position
-     * @param yIn
-     *            y position
-     * @param wIn
-     *            width
-     * @param hIn
-     *            height
+     * @param xIn x position
+     * @param yIn y position
+     * @param wIn width
+     * @param hIn height
      * @return true if the rectangle has a specific size
      */
     public boolean compareTo(int xIn, int yIn, int wIn, int hIn) {
@@ -107,8 +103,7 @@ public class Rectangles {
     /**
      * determine if two rectangles intersect
      * 
-     * @param obj
-     *            another rectangle
+     * @param obj another rectangle
      * @return true if they intersect
      */
     public boolean intersect(Rectangles obj) {
@@ -116,9 +111,6 @@ public class Rectangles {
         int oy = obj.getY();
         int ow = obj.getW();
         int oh = obj.getH();
-        return (x > ox && x < ox + ow && y > oy && y < oy + oh)
-                || (x + w > ox && x + w < ox + ow && y > oy && y < oy + oh)
-                || (x > ox && x < ox + ow && y + h > oy && y + h < oy + oh)
-                || (x + w > ox && x + w < ox + ow && y + h > oy && y + h < oy + oh);
+        return (x < ox + ow && x + w > ox && y < oy + oh && y + h > oy);
     }
 }
