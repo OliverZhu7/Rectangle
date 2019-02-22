@@ -1,8 +1,7 @@
 
-//import student.TestCase;
+// import student.TestCase;
 
 import junit.framework.TestCase;
-
 
 /**
  * @version this is the version for 2/19/2019
@@ -12,6 +11,7 @@ import junit.framework.TestCase;
 public class DatabaseTest extends TestCase {
 
     private Database base;
+
 
     /**
      * this is the pre set up
@@ -23,14 +23,24 @@ public class DatabaseTest extends TestCase {
         base = new Database();
     }
 
+
     /**
      * this is the method test the getName method
      */
-    
+
     public void testInsert() {
         assertTrue(base.insert("topleftCorner", 0, 0, 7, 6));
+        assertFalse(base.insert("aa", -1, 0, 7, 6));
+        assertFalse(base.insert("aa", 0, -1, 7, 6));
+        assertFalse(base.insert("aa", 0, 0, -1, 6));
+        assertFalse(base.insert("aa", 0, 0, 7, -1));
+        assertFalse(base.insert("aa", 0, 0, 7000, 6));
+        assertFalse(base.insert("aa", 0, 0, 7, 6000));
+        assertFalse(base.insert("233aa", 0, 0, 7, 6));
+
     }
-    
+
+
     /**
      * this is the method to test insert
      */
@@ -47,6 +57,7 @@ public class DatabaseTest extends TestCase {
         assertFalse(base.insert("ylar", 1, 1, 1, 2000));
     }
 
+
     /**
      * THIS IS the method to test the insertHelp method
      */
@@ -60,6 +71,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(base.insert("fff", 1, 1, 1, 1));
     }
 
+
     /**
      * this method is used to test the search method
      */
@@ -70,6 +82,7 @@ public class DatabaseTest extends TestCase {
         assertFalse(base.search("233"));
         assertTrue(base.search("eee"));
     }
+
 
     /**
      * this is the method to test
@@ -84,10 +97,25 @@ public class DatabaseTest extends TestCase {
         assertTrue(base.search("fff"));
     }
 
+
     /**
      * this method is used to test the remove method
      */
     public void testRemove() {
+        base.insert("bb", 2, 2, 2, 2);
+        base.insert("aa", 2, 2, 2, 6);
+        assertTrue(base.remove(2, 2, 2, 6));
+        base.remove(2, 2, 2, 2);
+        base.insert("bb", 2, 2, 2, 2);
+        base.insert("cc", 2, 2, 2, 6);
+        assertTrue(base.remove(2, 2, 2, 6));
+        base.remove(2, 2, 2, 2);
+        base.insert("aa", 1, 1, 1, 1);
+        assertFalse(base.remove(3, 1, 1, 1));
+        assertFalse(base.remove(1, 3, 1, 1));
+        assertFalse(base.remove(1, 1, 3, 1));
+        assertFalse(base.remove(1, 1, 1, 3));
+        assertTrue(base.remove(1, 1, 1, 1));
         System.out.println("5555555555555555555555555555555");
         assertFalse(base.remove("233"));
         base.insert("eee", 1, 1, 1, 1);
@@ -95,6 +123,7 @@ public class DatabaseTest extends TestCase {
         base.insert("eee", 1, 1, 1, 1);
         base.insert("fff", 1, 1, 1, 1);
         assertTrue(base.remove("eee"));
+        assertTrue(base.remove("fff"));
         // now only leave fff
         base.remove("fff");
         assertFalse(base.remove(2, 3, 3, 3));
@@ -105,6 +134,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(base.remove(1, 1, 1, 1));
         // only ddd
     }
+
 
     /**
      * test
@@ -123,6 +153,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(base.remove(2, 1, 1, 2));
         assertFalse(base.remove(3, 3, 33, 3));
     }
+
 
     /**
      * test
@@ -146,6 +177,7 @@ public class DatabaseTest extends TestCase {
         assertTrue(base.remove("ccc"));
     }
 
+
     /**
      * this method is used to test the region search
      */
@@ -158,6 +190,7 @@ public class DatabaseTest extends TestCase {
         assertFalse(base.regionsearch(5, 5, 2, 1));
         assertTrue(base.regionsearch(1, 1, 1, 5));
     }
+
 
     /**
      * this method is used to test the intersection method
@@ -175,11 +208,28 @@ public class DatabaseTest extends TestCase {
         assertTrue(base.regionsearch(1, 1, 1, 1));
     }
 
+
     /**
      * test
      */
     public void testIntersections() {
         System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        base.insert("ba", 1, 1, 1, 1);
+        base.insert("bb", 3, 3, 3, 3);
+        assertFalse(base.intersections());
+        base.remove("bb");
+        base.insert("ab", 1, 1, 1, 1);
+        base.insert("aa", 1, 1, 1, 1);
+        base.insert("aa", 1, 1, 1, 1);
+        base.insert("aa", 1, 1, 1, 1);
+        base.insert("aa", 1, 1, 1, 1);
+        assertTrue(base.intersections());
+        base.remove("ab");
+        base.remove("aa");
+        base.remove("aa");
+        base.remove("aa");
+        base.remove("aa");
+        base.remove("ba");
         assertFalse(base.intersections());
         base.insert("eee", 1, 1, 1, 1);
         base.insert("ddd", 2, 2, 1, 1);
@@ -190,6 +240,7 @@ public class DatabaseTest extends TestCase {
         base.insert("eee", 7, 7, 1, 1);
         assertFalse(base.intersections());
     }
+
 
     /**
      * test
@@ -206,6 +257,7 @@ public class DatabaseTest extends TestCase {
         assertFalse(base.intersections());
     }
 
+
     /**
      * this method is used to test the dump method
      */
@@ -215,6 +267,7 @@ public class DatabaseTest extends TestCase {
         base.insert("eee", 1, 1, 1, 1);
         assertTrue(base.dump());
     }
+
 
     /**
      * this is the method used to test the dump
@@ -230,7 +283,8 @@ public class DatabaseTest extends TestCase {
         base.insert("eee", 7, 7, 1, 1);
         assertTrue(base.dump());
     }
-    
+
+
     /**
      * this is the method to test the region search, without the valid region
      */
@@ -244,5 +298,18 @@ public class DatabaseTest extends TestCase {
         base.insert("fff", 1, 1, 1, 1);
         base.insert("eee", 1, 1, 1, 1);
         assertFalse(base.regionsearch(100, 100, 2, 1));
+    }
+
+
+    /**
+     * this is a test for findLeftest
+     */
+    public void testFindLeftest() {
+        base.insert("dd", 1, 1, 1, 1);
+        base.insert("cc", 1, 1, 1, 1);
+        base.insert("bb", 1, 1, 1, 1);
+        base.insert("aa", 1, 1, 1, 1);
+        assertEquals(((Rectangles)base.findLeftest(base.root).getElement())
+            .getName(), "aa");
     }
 }
